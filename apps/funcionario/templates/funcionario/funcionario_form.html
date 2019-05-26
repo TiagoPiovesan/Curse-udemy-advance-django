@@ -14,5 +14,26 @@
 
     </form>
 
+<br>
+<h3>Lista de documentos</h3>
+
+<ul>
+    {% for documento in documentos %}
+        <li><a href="{{ documento.arquivo.url }}">{{ documento.descricao }}</a></li>
+    {% endfor %}
+</ul>
+
+<br>
+<a href="{% url 'create_document' object.id %}" class="btn btn-success">Adicionar documento</a>
+
+
+<hr>
+<h3>Banco de Horas</h3>
+
+<ul>
+    {% for registro in banco_horas %}
+        {{ registro }} - {{registro.horas}}
+    {% endfor %}
+</ul>
 
 {% endblock %}

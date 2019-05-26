@@ -1,5 +1,10 @@
+from django.shortcuts import render_to_response
+from django.template import RequestContext
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
+
+from apps.documento.models import Documento
+from apps.registro_hora_extra.models import RegistroHoraExtra
 from .models import *
 
 
@@ -15,6 +20,10 @@ class FuncionarioEdit(UpdateView):
     model = Funcionario
     fields = ['nome', 'departamentos']
 
+    def get_context_data(self, **kwargs):
+        context = super(FuncionarioEdit, self).get_context_data(**kwargs)
+        context.update({'documentos': Documento.objects.filter(pertence__id=self.kwargs['pk']), 'banco_horas': RegistroHoraExtra.objects.filter(funcionario__id=self.kwargs['pk'])})
+        return context
 
 class FuncionarioDelete(DeleteView):
     model = Funcionario
